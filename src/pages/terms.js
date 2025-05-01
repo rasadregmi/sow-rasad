@@ -1,7 +1,8 @@
 import { Box, Button, Text } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Navbar from "../components/Navbar/index.js";
 import { useMediaQuery } from '@chakra-ui/react'
+import axios from "axios";
 
 const Terms = () => {
     const [termsContent, settermsContent] = useState([
@@ -37,6 +38,37 @@ const Terms = () => {
           title: "English",
           flag: "https://storage.123fakturere.no/public/flags/GB.png",
         });
+  useEffect(()=>{
+    try {
+      if(currentLanguage.title==='English'){
+        const fetchData=async()=>{
+          const res=await axios.get(`${process.env.REACT_APP_BACKEND_URL}/terms`)
+          let arr=[]
+          if(res?.data){
+            res?.data.map((data)=>{
+              arr.push(data.content)
+            })
+          }
+          settermsContent(arr)
+        }
+        fetchData()
+      }else{
+        const fetchData=async()=>{
+          const res=await axios.get(`${process.env.REACT_APP_BACKEND_URL}/terms-swedish`)
+          let arr=[]
+          if(res?.data){
+            res?.data.map((data)=>{
+              arr.push(data.content)
+            })
+          }
+          settermsContent(arr)
+        }
+        fetchData()
+      }
+    } catch (error) {
+      console.log(error,'err')
+    }
+  },[currentLanguage])
   return (
     <Box position="relative" minH="100vh" overflow="hidden">
       <Box
@@ -59,7 +91,7 @@ const Terms = () => {
         alignItems="center"
       >
         <Text color="white" fontWeight="bold" fontSize="24px">
-          Terms
+          {currentLanguage.title==='English'?"terms":"Villkor"}
         </Text>
         <Button
           background="rgb(8, 158, 30)"
@@ -73,7 +105,7 @@ const Terms = () => {
           _hover={{ background: "rgb(8, 158, 30)" }}
           onClick={() => window.close()}
         >
-          Close and Go Back
+          {currentLanguage.title==='English'? "Close and Go Back":"Stäng och gå tillbaka"}
         </Button>
 
         <Box
@@ -168,7 +200,7 @@ const Terms = () => {
           _hover={{ background: "rgb(8, 158, 30)" }}
           onClick={() => window.close()}
         >
-          Close and Go Back
+          {currentLanguage.title==='English'? "Close and Go Back":"Stäng och gå tillbaka"}
         </Button>
       </Box>
     </Box>

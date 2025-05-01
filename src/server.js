@@ -4,6 +4,8 @@ import sequelizePlugin from './plugins/sequelize.js';
 import ProductModel from './models/product.js';
 import NavItemModel from './models/navItemsEnglish.js';
 import NavItemModelSwedish from './models/navItemsSweden.js';
+import TermsModel from './models/termmodel.js';
+import TermsModelSwedish from './models/termsmodelSwedish.js';
 
 const fastify = Fastify();
 
@@ -28,6 +30,18 @@ async function start() {
       const productData = request.body;
       const products = await Product.bulkCreate(productData);
       reply.status(201).send(products);
+    });
+
+    fastify.get('/terms', async (request, reply) => {
+      const termItem = TermsModel(fastify.sequelize);
+      const items = await termItem.findAll();
+      reply.send(items);
+    });
+
+    fastify.get('/terms-swedish', async (request, reply) => {
+      const termItem = TermsModelSwedish(fastify.sequelize);
+      const items = await termItem.findAll();
+      reply.send(items);
     });
 
     // Nav items routes

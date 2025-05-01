@@ -1,5 +1,5 @@
 import { Sequelize } from 'sequelize';
-import ProductModel from './models/product.js';
+import ProductModel from '../models/product.js';
 
 const sequelize = new Sequelize({
   dialect: 'postgres',

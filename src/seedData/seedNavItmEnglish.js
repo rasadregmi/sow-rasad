@@ -1,5 +1,5 @@
 import { Sequelize, DataTypes } from 'sequelize';
-import NavItemModel from './models/navItemsEnglish.js';
+import NavItemModel from '../models/navItemsEnglish.js';
 
 
 const sequelize = new Sequelize({
