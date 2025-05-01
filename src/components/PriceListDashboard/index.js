@@ -5,6 +5,7 @@ import {
   Input,
   InputGroup,
   InputRightAddon,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import { IoMdAddCircle } from "react-icons/io";
@@ -25,6 +26,7 @@ const PriceListdashboard = () => {
       product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
       product.description.toLowerCase().includes(searchQuery.toLowerCase())
   );
+  const [isLargerThan1170] = useMediaQuery("(min-width: 1170px)");
 
   useEffect(()=>{
     try {
@@ -59,7 +61,7 @@ const PriceListdashboard = () => {
             </InputRightAddon>
           </InputGroup>
         </Box>
-        <Box display="flex" gap="2rem">
+        {isLargerThan1170 &&<Box display="flex" gap="2rem">
           <Box
             display="flex"
             gap="0.5rem"
@@ -102,7 +104,7 @@ const PriceListdashboard = () => {
               }}
             />
           </Box>
-        </Box>
+        </Box>}
       </Box>
       <Box>
         <PricelistTable filteredData={filteredData} />

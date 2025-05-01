@@ -13,7 +13,7 @@ const Pricelist = () => {
       </Box>
 
       {/* Main content with sidebar and price list */}
-      <Box display="flex" flex="1" overflow="hidden">
+      <Box display="flex" flex="1" overflowY="hidden">
         {/* Sidebar - never scrolls */}
         <Box width="260px" flexShrink={0} overflow="hidden">
           <MenuDashboard />
