@@ -2,12 +2,15 @@ import { Sequelize } from 'sequelize';
 import TermsModel from '../models/termmodel.js';
 
 
-const sequelize = new Sequelize({
+const sequelize = new Sequelize('postgresql://sow_4k5u_user:ptLJEsX3xiLZ7qRt33XJ0Q8GzwcrOfFW@dpg-d09sb8s9c44c73cmlkr0-a.singapore-postgres.render.com/sow_4k5u', {
   dialect: 'postgres',
-  host: 'localhost',
-  username: 'postgres',
-  password: '@sahitya721',
-  database: 'sow',
+  dialectOptions: {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false,
+    }
+  },
+  logging: false
 });
 const Terms = TermsModel(sequelize);
 
