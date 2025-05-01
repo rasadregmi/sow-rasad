@@ -1,6 +1,6 @@
 import { Box, Button, Text } from "@chakra-ui/react";
 import React, { useState } from "react";
-import Navbar from "../components/Navbar";
+import Navbar from "../components/Navbar/index.js";
 import { useMediaQuery } from '@chakra-ui/react'
 
 const Terms = () => {
@@ -33,6 +33,10 @@ const Terms = () => {
         "Have a great day!"
       ])
       const [isLargerThan900] = useMediaQuery('(min-width: 900px)')
+        const [currentLanguage, setcurrentLanguage] = useState({
+          title: "English",
+          flag: "https://storage.123fakturere.no/public/flags/GB.png",
+        });
   return (
     <Box position="relative" minH="100vh" overflow="hidden">
       <Box
@@ -46,7 +50,7 @@ const Terms = () => {
         backgroundRepeat="no-repeat"
         backgroundAttachment="fixed"
       />
-      <Navbar />
+      <Navbar currentLanguage={currentLanguage} setcurrentLanguage={setcurrentLanguage} />
       <Box
         display="flex"
         flexDirection="column"

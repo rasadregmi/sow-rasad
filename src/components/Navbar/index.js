@@ -1,9 +1,10 @@
 import { Box, Image, Text } from "@chakra-ui/react";
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { useMediaQuery } from "@chakra-ui/react";
 import { GiHamburgerMenu } from "react-icons/gi";
-const Navbar = () => {
-  const [navItems] = useState([
+import axios from "axios";
+const Navbar = ({currentLanguage,setcurrentLanguage}) => {
+  const [navItems,setNavItems] = useState([
     "Home",
     "Order",
     "Our Customers",
@@ -13,10 +14,6 @@ const Navbar = () => {
   const [isLargerThan1270] = useMediaQuery("(min-width: 1270px)");
   const [languageDropdownSelected, setlanguageDropdownSelected] =
     useState(false);
-  const [currentLanguage, setcurrentLanguage] = useState({
-    title: "English",
-    flag: "https://storage.123fakturere.no/public/flags/GB.png",
-  });
   const [languages, setlanguages] = useState([
     {
       title: "Svenska",
@@ -29,6 +26,38 @@ const Navbar = () => {
   ]);
   const [hamBurgerDropdownSelected, sethamBurgerDropdownSelected] =
     useState(false);
+
+    useEffect(()=>{
+      try {
+        if(currentLanguage.title==='English'){
+          const fetchData=async()=>{
+            const res=await axios.get(`${process.env.REACT_APP_BACKEND_URL}/nav-items`)
+            const arr=[]
+            if(res?.data){
+              res?.data.map((data)=>{
+                arr.push(data.label)
+              })
+            }
+            setNavItems(arr)
+          }
+          fetchData()
+        }else if(currentLanguage.title==="Svenska"){
+          const fetchData=async()=>{
+            const res=await axios.get(`${process.env.REACT_APP_BACKEND_URL}/nav-items-swedish`)
+            const arr=[]
+            if(res?.data){
+              res?.data.map((data)=>{
+                arr.push(data.label)
+              })
+            }
+            setNavItems(arr)
+          }
+          fetchData()
+        }
+      } catch (error) {
+        console.log(error,'err in languages')
+      }
+    },[currentLanguage])
 
   return (
     <Box

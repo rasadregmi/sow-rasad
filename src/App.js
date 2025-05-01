@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import Terms from './pages/terms';
-import Pricelist from './pages/pricelist';
+import Terms from './pages/terms.js';
+import Pricelist from './pages/pricelist.js';
 
 function App() {
   return (
