@@ -70,7 +70,10 @@ async function start() {
       reply.status(201).send(createdItems);
     });
 
-    await fastify.listen({ port: 5000 });
+    await fastify.listen({
+      port: process.env.PORT || 5000, // use provided port or fallback for local
+      host: '0.0.0.0',                // required by most hosting platforms
+    });
     console.log('🚀 Server running at http://localhost:5000');
   } catch (err) {
     console.error(err);
