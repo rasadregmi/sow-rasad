@@ -1,7 +1,7 @@
 // This file contains environment-specific configurations
 const config = {
-  // Backend API URL
-  API_URL: process.env.REACT_APP_BACKEND_URL || 'https://sow-rasad.onrender.com',
+  // Backend API URL - ensure it doesn't end with a slash to avoid double slashes in requests
+  API_URL: (process.env.REACT_APP_BACKEND_URL || 'https://sow-rasad.onrender.com').replace(/\/$/, ''),
   
   // Default language
   DEFAULT_LANGUAGE: 'svenska', // 'svenska' or 'english'

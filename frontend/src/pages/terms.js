@@ -4,6 +4,7 @@ import "../styles/terms.css";
 import "../styles/navAnimation.css";
 import "../styles/languageSwitch.css";
 import config from "../config";
+import api from "../api";
 
 const Terms = () => {
     const [termsContent, settermsContent] = useState([]);
@@ -49,47 +50,37 @@ const Terms = () => {
     }, []);
     
     useEffect(() => {
-        try {
-            const fetchData = async () => {
-                setIsLoading(true);
-                
-                try {
-                    const termsRes = await axios.get(
-                        `${config.API_URL}/${isSwedish ? 'terms-swedish' : 'terms'}`
-                    );
-                    
-                    if (termsRes?.data) {
-                        console.log("Terms data:", termsRes.data);
-                        settermsContent(termsRes.data.map(item => item.content));
-                    }
-                    
-                    const navRes = await axios.get(
-                        `${config.API_URL}/${isSwedish ? 'nav-items-swedish' : 'nav-items'}`
-                    );
-                    
-                    if (navRes?.data) {
-                        const translatedNavItems = [...new Set(navRes.data.map(item => item.label))].map(label => ({
-                            name: label,
-                            url: `/${label.toLowerCase().replace(/\s+/g, '-')}`
-                        }));
-                        
-                        console.log('Updated nav items:', translatedNavItems);
-                        setNavItems(translatedNavItems);
-                    }
-                } catch (error) {
-                    console.error('API error:', error);
-                    // Show a friendly error message to the user
-                    settermsContent(['Error loading content. Please try again later.']);
-                } finally {
-                    setIsLoading(false);
-                }
-            };
+        const fetchData = async () => {
+            setIsLoading(true);
             
-            fetchData();
-        } catch (error) {
-            console.error("Error in fetchData effect:", error);
-            setIsLoading(false);
-        }
+            try {
+                // Use our API utility for consistent error handling
+                const termsData = await api.getTerms(isSwedish);
+                if (termsData) {
+                    console.log("Terms data:", termsData);
+                    settermsContent(termsData.map(item => item.content));
+                }
+                
+                const navData = await api.getNavItems(isSwedish);
+                if (navData) {
+                    const translatedNavItems = [...new Set(navData.map(item => item.label))].map(label => ({
+                        name: label,
+                        url: `/${label.toLowerCase().replace(/\s+/g, '-')}`
+                    }));
+                    
+                    console.log('Updated nav items:', translatedNavItems);
+                    setNavItems(translatedNavItems);
+                }
+            } catch (error) {
+                console.error('API error:', error.message);
+                // Show a friendly error message to the user
+                settermsContent(['Error loading content. Please try again later.']);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        
+        fetchData();
     }, [isSwedish]);
     
     const handleLanguageChange = (language) => {
