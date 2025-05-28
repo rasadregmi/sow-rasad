@@ -101,8 +101,7 @@ const Terms = () => {
         backgroundImage: `url('https://storage.123fakturera.se/public/wallpapers/sverige43.jpg')`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat',
-        backgroundAttachment: 'fixed'
+        backgroundRepeat: 'no-repeat'
     };
     
     return (
