@@ -9,7 +9,7 @@ const fastify = Fastify();
 async function start() {
   try {
     await fastify.register(cors, {
-      origin: '*',
+  origin: ['https://sow-rasad.vercel.app/terms', 'http://localhost:3000'],
       methods: ['GET', 'POST', 'PUT'],
     });
 
