@@ -3,6 +3,7 @@ import axios from "axios";
 import "../styles/terms.css";
 import "../styles/navAnimation.css";
 import "../styles/languageSwitch.css";
+import config from "../config";
 
 const Terms = () => {
     const [termsContent, settermsContent] = useState([]);
@@ -52,35 +53,41 @@ const Terms = () => {
             const fetchData = async () => {
                 setIsLoading(true);
                 
-                const termsRes = await axios.get(
-                    `${process.env.REACT_APP_BACKEND_URL}/${isSwedish ? 'terms-swedish' : 'terms'}`
-                );
-                
-                if (termsRes?.data) {
-                    console.log("Terms data:", termsRes.data);
-                    settermsContent(termsRes.data.map(item => item.content));
-                }
-                
-                const navRes = await axios.get(
-                    `${process.env.REACT_APP_BACKEND_URL}/${isSwedish ? 'nav-items-swedish' : 'nav-items'}`
-                );
-                
-                if (navRes?.data) {
-                    const translatedNavItems = [...new Set(navRes.data.map(item => item.label))].map(label => ({
-                        name: label,
-                        url: `/${label.toLowerCase().replace(/\s+/g, '-')}`
-                    }));
+                try {
+                    const termsRes = await axios.get(
+                        `${config.API_URL}/${isSwedish ? 'terms-swedish' : 'terms'}`
+                    );
                     
-                    console.log('Updated nav items:', translatedNavItems);
-                    setNavItems(translatedNavItems);
+                    if (termsRes?.data) {
+                        console.log("Terms data:", termsRes.data);
+                        settermsContent(termsRes.data.map(item => item.content));
+                    }
+                    
+                    const navRes = await axios.get(
+                        `${config.API_URL}/${isSwedish ? 'nav-items-swedish' : 'nav-items'}`
+                    );
+                    
+                    if (navRes?.data) {
+                        const translatedNavItems = [...new Set(navRes.data.map(item => item.label))].map(label => ({
+                            name: label,
+                            url: `/${label.toLowerCase().replace(/\s+/g, '-')}`
+                        }));
+                        
+                        console.log('Updated nav items:', translatedNavItems);
+                        setNavItems(translatedNavItems);
+                    }
+                } catch (error) {
+                    console.error('API error:', error);
+                    // Show a friendly error message to the user
+                    settermsContent(['Error loading content. Please try again later.']);
+                } finally {
+                    setIsLoading(false);
                 }
-                
-                setIsLoading(false);
             };
             
             fetchData();
         } catch (error) {
-            console.log(error, 'err while fetching data');
+            console.error("Error in fetchData effect:", error);
             setIsLoading(false);
         }
     }, [isSwedish]);

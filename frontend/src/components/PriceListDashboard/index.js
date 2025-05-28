@@ -8,6 +8,7 @@ import Switch from "../Switch.js";
 import axios from "axios";
 import "../../styles/pricelist.css";
 import "../../styles/tablet-view.css";
+import config from "../../config";
 
 const PriceListDashboard = ({ onMenuToggle }) => {
   const [advancedMode, setadvancedMode] = useState(true);
@@ -42,14 +43,25 @@ const PriceListDashboard = ({ onMenuToggle }) => {
   useEffect(()=>{
     try {
         const fetchData = async() => {
-          const res = await axios.get(`${process.env.REACT_APP_BACKEND_URL}/products`)
-          if(res?.data){
-            setProductData(res?.data)
+          try {
+            const res = await axios.get(`${config.API_URL}/products`)
+            if(res?.data){
+              setProductData(res?.data)
+            }
+          } catch (error) {
+            console.error('Error fetching products:', error)
+            // Show a user-friendly error or fallback data
+            setProductData([{
+              name: 'Error loading products',
+              description: 'Please try again later',
+              price: '-',
+              articleNo: '-'
+            }])
           }
         }
         fetchData()
     } catch (error) {
-      console.log(error,'err while fetching product data')
+      console.error('Error in fetchData effect:', error)
     }
   },[])
 

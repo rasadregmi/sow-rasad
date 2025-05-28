@@ -24,10 +24,50 @@ async function start() {
 
     await fastify.register(sequelizePlugin);
 
+    // Root route - this will help with health checks and debugging
+    fastify.get('/', async (request, reply) => {
+      return {
+        status: 'Server is running',
+        routes: ['/products', '/terms', '/nav-items'],
+        version: '1.0.0'
+      };
+    });
+
+    // Health check route
+    fastify.get('/health', async (request, reply) => {
+      try {
+        // Check database connection
+        await fastify.sequelize.authenticate();
+        return {
+          status: 'healthy',
+          database: 'connected',
+          timestamp: new Date().toISOString()
+        };
+      } catch (error) {
+        fastify.log.error('Health check failed:', error);
+        return reply.code(500).send({
+          status: 'unhealthy',
+          database: 'disconnected',
+          error: error.message,
+          timestamp: new Date().toISOString()
+        });
+      }
+    });
+
+    // HEAD route for health checks
+    fastify.head('/', async (request, reply) => {
+      reply.code(200).send();
+    });
+
     fastify.get('/products', async (request, reply) => {
-      const Product = ProductModel(fastify.sequelize);
-      const products = await Product.findAll();
-      reply.send(products);
+      try {
+        const Product = ProductModel(fastify.sequelize);
+        const products = await Product.findAll();
+        return reply.code(200).send(products);
+      } catch (error) {
+        fastify.log.error('Error fetching products:', error);
+        return reply.code(500).send({ error: error.message });
+      }
     });
     
     fastify.post('/products', async (request, reply) => {
@@ -120,8 +160,10 @@ fastify.post('/nav-items', async (request, reply) => {
       host: '0.0.0.0',               
     });
     console.log(`🚀 Server running on port ${process.env.PORT || 3001}`);
+    console.log(`Available routes: /, /products, /terms, /nav-items`);
   } catch (err) {
-    console.error('Server error:', err);
+    fastify.log.error('Server error:', err);
+    console.error('Server startup failed:', err.message);
     process.exit(1);
   }
 }
