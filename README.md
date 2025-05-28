@@ -1,55 +1,42 @@
-# SOW Application
+# Project Documentation
 
-This application consists of a backend API and a frontend application.
+## Technologies Used
 
-## Setup
+### Frontend
+- **Framework**: React 18.2.0
+- **Routing**: React Router DOM 6.18.0
+- **HTTP Client**: Axios 1.6.0
+- **UI Libraries**: React Icons 4.11.0
+- **CSS**: Custom CSS with responsive design
+- **Testing**: Jest with React Testing Library
 
-1. Ensure you have Node.js installed
-2. Make sure PostgreSQL is installed and running
-3. Set up environment variables:
+### Backend
+- **Runtime**: Node.js (v16.x)
+- **Framework**: Fastify 5.3.2
+- **ORM**: Sequelize 6.37.7
+- **Database**: PostgreSQL 8.15.6
+- **Middleware**: @fastify/cors 11.0.1
 
-### Backend Setup
+## Project Structure
+- Frontend: React single-page application
+- Backend: RESTful API built with Fastify
+- Database: PostgreSQL with Sequelize ORM
 
-1. Navigate to the backend directory: `cd backend`
-2. Install dependencies: `npm install`
-3. Create a `.env` file with the following content:
-   ```
-   DATABASE_URL="your-postgresql-connection-string"
-   ```
-4. Start the server: `npm start`
+## Deployment Method
+- **Frontend**: Deployed on Vercel
+  - CI/CD pipeline connected to GitLab repository
+  - Automatic deployments on push to main branch
+  
+- **Backend**: Deployed on Render
+  - Web service with auto-deploy from GitLab
+  - PostgreSQL database hosted on Render
 
-### Frontend Setup
+## Live URLs
+- Frontend: https://your-app-name.vercel.app
+- Backend API: https://your-api-name.onrender.com
 
-1. Navigate to the frontend directory: `cd frontend` 
-2. Install dependencies: `npm install`
-3. Create a `.env` file with the following content:
-   ```
-   REACT_APP_BACKEND_URL=http://localhost:3001
-   ```
-4. Start the frontend: `npm start`
-
-## Quick Start
-
-For convenience, you can use the start script to run both the backend and frontend:
-
-```bash
-./start.sh
-```
-
-## Data Endpoints
-
-The backend provides the following endpoints:
-
-- `/terms` - English terms and conditions
-- `/terms-swedish` - Swedish terms and conditions
-- `/nav-items` - English navigation items
-- `/nav-items-swedish` - Swedish navigation items
-
-## Troubleshooting
-
-If you encounter issues with data not being displayed:
-
-1. Check that the backend server is running
-2. Verify the database connection string is correct
-3. Check that the frontend is properly configured to connect to the backend
-4. Look at the browser console and server logs for error messages
+## Setup Instructions
+1. Clone the repository
+2. Run `npm run install:all` to install dependencies
+3. Set up environment variables
+4. Run `npm start` to start development servers
