@@ -24,56 +24,25 @@ async function start() {
 
     await fastify.register(sequelizePlugin);
 
-    // Debug route to check if server is running
-    fastify.get('/', async (request, reply) => {
-      return { status: 'Server is running', routes: ['GET /products', 'GET /terms'] };
-    });
-
     fastify.get('/products', async (request, reply) => {
-      try {
-        const Product = fastify.sequelize.models.Product;
-        console.log('Fetching products...');
-        console.log('Product model:', Product ? 'Found' : 'Not found');
-        
-        if (!Product) {
-          return reply.status(500).send({ error: 'Product model not initialized' });
-        }
-        
-        const products = await Product.findAll();
-        console.log(`Found ${products.length} products`);
-        return reply.send(products);
-      } catch (error) {
-        console.error('Error fetching products:', error);
-        return reply.status(500).send({ error: error.message });
-      }
+      const Product = ProductModel(fastify.sequelize);
+      const products = await Product.findAll();
+      reply.send(products);
     });
     
     fastify.post('/products', async (request, reply) => {
-      try {
-        const Product = fastify.sequelize.models.Product;
-        if (!Product) {
-          return reply.status(500).send({ error: 'Product model not initialized' });
-        }
-        
-        const productData = request.body;
-        const products = await Product.bulkCreate(productData);
-        return reply.status(201).send(products);
-      } catch (error) {
-        console.error('Error creating products:', error);
-        return reply.status(500).send({ error: error.message });
-      }
+      const Product = ProductModel(fastify.sequelize);
+      const productData = request.body;
+      const products = await Product.bulkCreate(productData);
+      reply.status(201).send(products);
     });
     
     fastify.put('/products/:id', async (request, reply) => {
+      const Product = ProductModel(fastify.sequelize);
+      const { id } = request.params;
+      const updateData = request.body;
+      
       try {
-        const Product = fastify.sequelize.models.Product;
-        if (!Product) {
-          return reply.status(500).send({ error: 'Product model not initialized' });
-        }
-        
-        const { id } = request.params;
-        const updateData = request.body;
-        
         const [updated] = await Product.update(updateData, {
           where: { id: id }
         });
@@ -85,7 +54,6 @@ async function start() {
         
         return reply.status(404).send({ error: 'Product not found' });
       } catch (error) {
-        console.error('Error updating product:', error);
         return reply.status(500).send({ error: error.message });
       }
     });
@@ -114,11 +82,7 @@ fastify.get('/terms-swedish', async (request, reply) => {
 
 fastify.get('/nav-items', async (request, reply) => {
   try {
-    const NavItem = fastify.sequelize.models.NavItem;
-    if (!NavItem) {
-      return reply.status(500).send({ error: 'NavItem model not initialized' });
-    }
-    
+    const NavItem = NavItemModel(fastify.sequelize);
     const items = await NavItem.findAll();
     return reply.send(items);
   } catch (err) {
@@ -129,12 +93,8 @@ fastify.get('/nav-items', async (request, reply) => {
 
 fastify.get('/nav-items-swedish', async (request, reply) => {
   try {
-    const NavItemSwedish = fastify.sequelize.models.NavItemSwedish;
-    if (!NavItemSwedish) {
-      return reply.status(500).send({ error: 'Swedish NavItem model not initialized' });
-    }
-    
-    const items = await NavItemSwedish.findAll();
+    const NavItem = fastify.sequelize.models.navitemsSweden;
+    const items = await NavItem.findAll();
     return reply.send(items);
   } catch (err) {
     console.error('Error fetching nav items (Swedish):', err);
@@ -143,25 +103,16 @@ fastify.get('/nav-items-swedish', async (request, reply) => {
 });
 
 fastify.post('/nav-items', async (request, reply) => {
-  try {
-    const NavItem = fastify.sequelize.models.NavItem;
-    if (!NavItem) {
-      return reply.status(500).send({ error: 'NavItem model not initialized' });
-    }
-    
-    const labels = request.body;
-    
-    if (!Array.isArray(labels) || labels.some(l => typeof l !== 'string')) {
-      return reply.status(400).send({ error: 'Invalid input format. Expected array of strings.' });
-    }
-    
-    const navItemData = labels.map(label => ({ label }));
-    const createdItems = await NavItem.bulkCreate(navItemData);
-    return reply.status(201).send(createdItems);
-  } catch (error) {
-    console.error('Error creating nav items:', error);
-    return reply.status(500).send({ error: error.message });
+  const NavItem = NavItemModel(fastify.sequelize);
+  const labels = request.body;
+
+  if (!Array.isArray(labels) || labels.some(l => typeof l !== 'string')) {
+    return reply.status(400).send({ error: 'Invalid input format. Expected array of strings.' });
   }
+
+  const navItemData = labels.map(label => ({ label }));
+  const createdItems = await NavItem.bulkCreate(navItemData);
+  reply.status(201).send(createdItems);
 });
 
     await fastify.listen({
