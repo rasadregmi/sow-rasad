@@ -1,36 +1,48 @@
+:root {
+  --app-height: 100%;
+}
+
 html, body {
   margin: 0;
   padding: 0;
-  height: 100%;
   width: 100%;
+  height: 100%;
+  overflow-y: auto;
   overflow-x: hidden;
-}
-
-body {
-  position: relative;
   background-color: #0f7ee9;
 }
 
-@media screen and (max-width: 768px) {
-  body {
-    height: 100%;
-  }
+body::after {
+  content: '';
+  display: block;
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -10;
+  pointer-events: none;
+  background: #0f7ee9;
 }
 
 .terms-container {
   position: relative;
-  min-height: 100%;
+  min-height: 100vh; 
+  min-height: var(--app-height);
+  width: 100%;
   display: flex;
   flex-direction: column;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  overflow-x: hidden;
 }
 
 .terms-bg {
   position: fixed;
-  top: 0;
+  top: -50px; 
   left: 0;
   right: 0;
-  bottom: 0;
+  bottom: -100px; 
+  height: calc(100% + 150px); 
   z-index: -1;
   background-image: url('https://storage.123fakturera.se/public/wallpapers/sverige43.jpg');
   background-position: center;
@@ -457,31 +469,48 @@ body {
   }
 }
 
-/* Additional mobile fixes to prevent white space during URL bar hiding */
+/* Mobile optimizations */
 @media only screen and (max-width: 767px) {
-  .mobile-terms-view .terms-container {
-    min-height: -webkit-fill-available;
-    padding-bottom: env(safe-area-inset-bottom, 0);
+  .terms-container {
+    min-height: var(--app-height); /* Use dynamic height variable */
+    min-height: -webkit-fill-available; /* iOS Safari fallback */
   }
   
-  /* Cover full height plus some extra to ensure no white space */
-  .terms-bg {
-    height: 120%;  /* Extend beyond viewport */
-    bottom: -20%;  /* Ensure coverage at bottom */
+  /* Disable pull-to-refresh and overscroll behaviors */
+  html, body {
+    overscroll-behavior: none;
+    -webkit-overflow-scrolling: touch;
     position: fixed;
-  }
-  
-  /* Force content to take at least full viewport */
-  .terms-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
   }
 
-  /* Prevent iOS from bouncing the scroll */
-  .mobile-terms-view {
-    overscroll-behavior-y: none;
-    -webkit-overflow-scrolling: touch;
+  /* Create a scrollable container while preventing body scrolling */
+  .terms-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    overflow-y: auto;
+  }
+  
+  /* Make sure content doesn't get cut off */
+  .terms-content {
+    padding-bottom: 50px; /* Extra padding to ensure no content is cut off */
+  }
+  
+  /* Ensure the background covers all potential white space */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #0f7ee9; /* Fallback color that matches the image */
+    z-index: -2;
   }
 }
 

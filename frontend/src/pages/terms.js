@@ -31,17 +31,15 @@ const Terms = () => {
             document.body.classList.remove('mobile-terms-view');
         }
         
-        const handleVisualViewport = () => {
-            const vh = window.innerHeight * 0.01;
-            document.documentElement.style.setProperty('--vh', `${vh}px`);
-            
-            document.body.style.display = 'none';
-            const _ = document.body.offsetHeight; 
-            document.body.style.display = '';
+        const setAppHeight = () => {
+            document.documentElement.style.setProperty('--app-height', `${window.innerHeight}px`);
         };
         
-        window.visualViewport?.addEventListener('resize', handleVisualViewport);
-        window.visualViewport?.addEventListener('scroll', handleVisualViewport);
+        setAppHeight();
+        
+        window.addEventListener('resize', setAppHeight);
+        window.addEventListener('orientationchange', setAppHeight);
+        window.addEventListener('scroll', () => setTimeout(setAppHeight, 50));
         
         const handleResize = () => {
             setIsMobile(window.innerWidth < 768);
@@ -62,8 +60,9 @@ const Terms = () => {
         return () => {
             window.removeEventListener('resize', handleResize);
             window.removeEventListener('mousedown', handleClickOutside);
-            window.visualViewport?.removeEventListener('resize', handleVisualViewport);
-            window.visualViewport?.removeEventListener('scroll', handleVisualViewport);
+            window.removeEventListener('resize', setAppHeight);
+            window.removeEventListener('orientationchange', setAppHeight);
+            window.removeEventListener('scroll', setAppHeight);
             document.body.classList.remove('mobile-terms-view');
         };
     }, []);
