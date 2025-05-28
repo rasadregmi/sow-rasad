@@ -17,13 +17,24 @@ const sequelizePlugin = fp(async (fastify, options) => {
         rejectUnauthorized: false,
       }
     },
-    logging: false
+    logging: true // Enable logging for debugging
   });
-  ProductModel(sequelize);
-  NavItemModel(sequelize);
-  NavItemModelSwedish(sequelize);
-  TermsModel(sequelize);
-  TermsModelSwedish(sequelize);
+  
+  // Initialize models and store them for easier access
+  const Product = ProductModel(sequelize);
+  const NavItem = NavItemModel(sequelize);
+  const NavItemSwedish = NavItemModelSwedish(sequelize);
+  const Terms = TermsModel(sequelize);
+  const TermsSwedish = TermsModelSwedish(sequelize);
+  
+  // Make models accessible via sequelize.models
+  sequelize.models = {
+    Product,
+    NavItem,
+    NavItemSwedish,
+    terms: Terms,
+    termsSweden: TermsSwedish
+  };
 
   try {
     await sequelize.authenticate();
