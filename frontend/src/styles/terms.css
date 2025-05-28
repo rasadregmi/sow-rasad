@@ -1,38 +1,36 @@
-html {
-  height: 100%;
-  width: 100%;
+html, body {
   margin: 0;
   padding: 0;
-  overflow: hidden;
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
 }
 
 body {
-  height: 100%;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  position: fixed;
-  overflow-y: scroll;
-  -webkit-overflow-scrolling: touch;
-  overscroll-behavior-y: none;
+  position: relative;
   background-color: #0f7ee9;
 }
 
+@media screen and (max-width: 768px) {
+  body {
+    height: 100%;
+  }
+}
+
 .terms-container {
+  position: relative;
   min-height: 100%;
-  width: 100%;
   display: flex;
   flex-direction: column;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  position: relative;
 }
 
 .terms-bg {
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  right: 0;
+  bottom: 0;
   z-index: -1;
   background-image: url('https://storage.123fakturera.se/public/wallpapers/sverige43.jpg');
   background-position: center;
@@ -456,6 +454,34 @@ body {
   
   .terms-mobile-menu {
     transform: translateX(100%);
+  }
+}
+
+/* Additional mobile fixes to prevent white space during URL bar hiding */
+@media only screen and (max-width: 767px) {
+  .mobile-terms-view .terms-container {
+    min-height: -webkit-fill-available;
+    padding-bottom: env(safe-area-inset-bottom, 0);
+  }
+  
+  /* Cover full height plus some extra to ensure no white space */
+  .terms-bg {
+    height: 120%;  /* Extend beyond viewport */
+    bottom: -20%;  /* Ensure coverage at bottom */
+    position: fixed;
+  }
+  
+  /* Force content to take at least full viewport */
+  .terms-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Prevent iOS from bouncing the scroll */
+  .mobile-terms-view {
+    overscroll-behavior-y: none;
+    -webkit-overflow-scrolling: touch;
   }
 }
 

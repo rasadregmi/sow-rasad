@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
-import axios from "axios";
 import "../styles/terms.css";
 import "../styles/navAnimation.css";
 import "../styles/languageSwitch.css";
-import config from "../config";
 import api from "../api";
 
 const Terms = () => {
@@ -27,18 +25,24 @@ const Terms = () => {
         img.src = 'https://storage.123fakturera.se/public/wallpapers/sverige43.jpg';
         img.onload = () => setImageLoaded(true);
         
-        const preventRubberBand = (e) => {
-            const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
-            const scrollHeight = document.documentElement.scrollHeight;
-            const clientHeight = document.documentElement.clientHeight;
+        // Add class to body for special mobile handling
+        if (window.innerWidth < 768) {
+            document.body.classList.add('mobile-terms-view');
+        } else {
+            document.body.classList.remove('mobile-terms-view');
+        }
+        
+        const handleVisualViewport = () => {
+            const vh = window.innerHeight * 0.01;
+            document.documentElement.style.setProperty('--vh', `${vh}px`);
             
-            if ((scrollTop <= 0 && e.touches[0].screenY > e.touches[0].screenY) ||
-                (scrollTop + clientHeight >= scrollHeight && e.touches[0].screenY < e.touches[0].screenY)) {
-                e.preventDefault();
-            }
+            document.body.style.display = 'none';
+            document.body.offsetHeight; 
+            document.body.style.display = '';
         };
         
-        document.addEventListener('touchmove', preventRubberBand, { passive: false });
+        window.visualViewport?.addEventListener('resize', handleVisualViewport);
+        window.visualViewport?.addEventListener('scroll', handleVisualViewport);
         
         const handleResize = () => {
             setIsMobile(window.innerWidth < 768);
@@ -59,6 +63,9 @@ const Terms = () => {
         return () => {
             window.removeEventListener('resize', handleResize);
             window.removeEventListener('mousedown', handleClickOutside);
+            window.visualViewport?.removeEventListener('resize', handleVisualViewport);
+            window.visualViewport?.removeEventListener('scroll', handleVisualViewport);
+            document.body.classList.remove('mobile-terms-view');
         };
     }, []);
     
@@ -67,7 +74,6 @@ const Terms = () => {
             setIsLoading(true);
             
             try {
-                // Use our API utility for consistent error handling
                 const termsData = await api.getTerms(isSwedish);
                 if (termsData) {
                     console.log("Terms data:", termsData);
@@ -86,7 +92,6 @@ const Terms = () => {
                 }
             } catch (error) {
                 console.error('API error:', error.message);
-                // Show a friendly error message to the user
                 settermsContent(['Error loading content. Please try again later.']);
             } finally {
                 setIsLoading(false);
