@@ -96,16 +96,9 @@ const Terms = () => {
     const toggleMobileMenu = () => {
         setMobileMenuOpen(!mobileMenuOpen);
     };
-
-    const bgStyle = {
-        backgroundImage: `url('https://storage.123fakturera.se/public/wallpapers/sverige43.jpg')`,
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        backgroundRepeat: 'no-repeat'
-    };
     
     return (
-        <div className="terms-container" style={bgStyle}>
+        <div className="terms-container">
             <div className="terms-menu-bar">
                 <div className="logo-container">
                     <img src="https://storage.123fakturera.se/public/icons/diamond.png" alt="Logo" className="logo" />
