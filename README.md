@@ -1,4 +1,4 @@
-# SOW Project
+# SOW (Statement of Work) Project
 
 A full-stack application with React frontend and Fastify backend, showcasing terms and conditions along with a product price list.
 
