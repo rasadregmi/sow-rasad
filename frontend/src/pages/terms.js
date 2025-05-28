@@ -27,6 +27,19 @@ const Terms = () => {
         img.src = 'https://storage.123fakturera.se/public/wallpapers/sverige43.jpg';
         img.onload = () => setImageLoaded(true);
         
+        const preventRubberBand = (e) => {
+            const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight;
+            const clientHeight = document.documentElement.clientHeight;
+            
+            if ((scrollTop <= 0 && e.touches[0].screenY > e.touches[0].screenY) ||
+                (scrollTop + clientHeight >= scrollHeight && e.touches[0].screenY < e.touches[0].screenY)) {
+                e.preventDefault();
+            }
+        };
+        
+        document.addEventListener('touchmove', preventRubberBand, { passive: false });
+        
         const handleResize = () => {
             setIsMobile(window.innerWidth < 768);
             if (window.innerWidth >= 768) {
@@ -99,6 +112,7 @@ const Terms = () => {
     
     return (
         <div className="terms-container">
+            <div className="terms-bg"></div>
             <div className="terms-menu-bar">
                 <div className="logo-container">
                     <img src="https://storage.123fakturera.se/public/icons/diamond.png" alt="Logo" className="logo" />
@@ -121,8 +135,8 @@ const Terms = () => {
                             <span>{isSwedish ? "Svenska" : "English"}</span>
                             <img
                                 src={isSwedish 
-                                    ? "https://storage.123fakturere.no/public/flags/SE.png" 
-                                    : "https://storage.123fakturere.no/public/flags/GB.png"}
+                                    ? "https://storage.123fakturera.no/public/flags/SE.png" 
+                                    : "https://storage.123fakturera.no/public/flags/GB.png"}
                                 alt={isSwedish ? "Swedish flag" : "English flag"}
                                 className="language-flag"
                             />
@@ -140,7 +154,7 @@ const Terms = () => {
                                 >
                                     <span style={{ color: "#000" }}>Svenska</span>
                                     <img
-                                        src="https://storage.123fakturere.no/public/flags/SE.png"
+                                        src="https://storage.123fakturera.no/public/flags/SE.png"
                                         alt="Swedish flag"
                                         className="language-flag"
                                     />
@@ -155,7 +169,7 @@ const Terms = () => {
                                 >
                                     <span style={{ color: "#000" }}>English</span>
                                     <img
-                                        src="https://storage.123fakturere.no/public/flags/GB.png"
+                                        src="https://storage.123fakturera.no/public/flags/GB.png"
                                         alt="English flag"
                                         className="language-flag"
                                     />
@@ -188,8 +202,8 @@ const Terms = () => {
                         <span>{isSwedish ? "Svenska" : "English"}</span>
                         <img
                             src={isSwedish 
-                                ? "https://storage.123fakturere.no/public/flags/SE.png" 
-                                : "https://storage.123fakturere.no/public/flags/GB.png"}
+                                ? "https://storage.123fakturera.no/public/flags/SE.png" 
+                                : "https://storage.123fakturera.no/public/flags/GB.png"}
                             alt={isSwedish ? "Swedish flag" : "English flag"}
                             className="language-flag"
                         />
@@ -207,7 +221,7 @@ const Terms = () => {
                             >
                                 <span>Svenska</span>
                                 <img
-                                    src="https://storage.123fakturere.no/public/flags/SE.png"
+                                    src="https://storage.123fakturera.no/public/flags/SE.png"
                                     alt="Swedish flag"
                                     className="language-flag"
                                 />
@@ -222,7 +236,7 @@ const Terms = () => {
                             >
                                 <span>English</span>
                                 <img
-                                    src="https://storage.123fakturere.no/public/flags/GB.png"
+                                    src="https://storage.123fakturera.no/public/flags/GB.png"
                                     alt="English flag"
                                     className="language-flag"
                                 />
