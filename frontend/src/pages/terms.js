@@ -25,7 +25,6 @@ const Terms = () => {
         img.src = 'https://storage.123fakturera.se/public/wallpapers/sverige43.jpg';
         img.onload = () => setImageLoaded(true);
         
-        // Add class to body for special mobile handling
         if (window.innerWidth < 768) {
             document.body.classList.add('mobile-terms-view');
         } else {
@@ -37,7 +36,7 @@ const Terms = () => {
             document.documentElement.style.setProperty('--vh', `${vh}px`);
             
             document.body.style.display = 'none';
-            document.body.offsetHeight; 
+            const _ = document.body.offsetHeight; 
             document.body.style.display = '';
         };
         
