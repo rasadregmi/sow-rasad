@@ -5,11 +5,10 @@ import sequelizePlugin from './src/plugins/sequelize.js';
 import ProductModel from './src/models/productModel.js';
 import NavItemModel from './src/models/navItemModel.js';
 
-// Load environment variables
 dotenv.config();
 
 const fastify = Fastify({
-  logger: true // Enable logging for better debugging
+  logger: true
 });
 
 async function start() {
@@ -24,7 +23,6 @@ async function start() {
 
     await fastify.register(sequelizePlugin);
 
-    // Root route - this will help with health checks and debugging
     fastify.get('/', async (request, reply) => {
       return {
         status: 'Server is running',
@@ -33,10 +31,8 @@ async function start() {
       };
     });
 
-    // Health check route
     fastify.get('/health', async (request, reply) => {
       try {
-        // Check database connection
         await fastify.sequelize.authenticate();
         return {
           status: 'healthy',
@@ -54,7 +50,6 @@ async function start() {
       }
     });
 
-    // HEAD route for health checks
     fastify.head('/', async (request, reply) => {
       reply.code(200).send();
     });
