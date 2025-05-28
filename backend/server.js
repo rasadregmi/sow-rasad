@@ -1,16 +1,25 @@
 import Fastify from 'fastify';
 import cors from '@fastify/cors';
+import dotenv from 'dotenv';
 import sequelizePlugin from './src/plugins/sequelize.js';
 import ProductModel from './src/models/productModel.js';
 import NavItemModel from './src/models/navItemModel.js';
 
-const fastify = Fastify();
+// Load environment variables
+dotenv.config();
+
+const fastify = Fastify({
+  logger: true // Enable logging for better debugging
+});
 
 async function start() {
   try {
     await fastify.register(cors, {
-  origin: ['https://sow-rasad.vercel.app/terms', 'http://localhost:3000'],
+      origin: process.env.NODE_ENV === 'production' 
+        ? ['https://sow-rasad.vercel.app', 'https://sow-rasad-git-master-rasadregmi.vercel.app'] 
+        : ['http://localhost:3000'],
       methods: ['GET', 'POST', 'PUT'],
+      credentials: true
     });
 
     await fastify.register(sequelizePlugin);
@@ -110,9 +119,9 @@ fastify.post('/nav-items', async (request, reply) => {
       port: process.env.PORT || 3001, 
       host: '0.0.0.0',               
     });
-    console.log('🚀 Server running at http://localhost:3001');
+    console.log(`🚀 Server running on port ${process.env.PORT || 3001}`);
   } catch (err) {
-    console.error(err);
+    console.error('Server error:', err);
     process.exit(1);
   }
 }

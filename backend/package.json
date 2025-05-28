@@ -16,6 +16,7 @@
   },
   "dependencies": {
     "@fastify/cors": "^11.0.1",
+    "dotenv": "^16.4.1",
     "fastify": "^5.3.2",
     "fastify-plugin": "^4.5.1",
     "fastify-sequelize": "^1.0.4",
