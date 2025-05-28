@@ -11,6 +11,7 @@ const setVh = () => {
 setVh();
 window.addEventListener('resize', setVh);
 window.addEventListener('orientationchange', setVh);
+window.addEventListener('scroll', setVh, { passive: true });
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
