@@ -115,8 +115,18 @@ const Terms = () => {
     
     return (
         <div className="terms-container">
-            {/* Multiple background layers for maximum coverage */}
+            {/* Background color layer */}
             <div className="terms-bg"></div>
+            
+            {/* Background image container */}
+            <div className="terms-bg-img-container">
+                <img 
+                    src="https://storage.123fakturera.se/public/wallpapers/sverige43.jpg" 
+                    alt="" 
+                    className="terms-bg-img"
+                    loading="eager"
+                />
+            </div>
             
             {/* Extra background element specifically for mobile */}
             <div style={{

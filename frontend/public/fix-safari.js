@@ -13,11 +13,18 @@
     safariFix.style.cssText = 'position:fixed;z-index:-999;pointer-events:none;background:#0f7ee9;left:-200px;right:-200px;top:-200px;bottom:-7000px;height:10000px;';
     document.body.appendChild(safariFix);
     
-    // Add a second layer with the background image
-    var safariFixImage = document.createElement('div');
-    safariFixImage.id = 'safari-bg-fix-image';
-    safariFixImage.style.cssText = 'position:fixed;z-index:-998;pointer-events:none;left:-10%;right:-10%;top:-10%;bottom:-10%;width:120%;height:120%;background-image:url("https://storage.123fakturera.se/public/wallpapers/sverige43.jpg");background-position:center;background-size:cover;background-attachment:fixed;';
-    document.body.appendChild(safariFixImage);
+    // Use an actual image element instead of background-image
+    var existingImg = document.getElementById('safari-bg-img');
+    if (existingImg) {
+      document.body.removeChild(existingImg);
+    }
+    
+    var bgImg = document.createElement('img');
+    bgImg.id = 'safari-bg-img';
+    bgImg.src = 'https://storage.123fakturera.se/public/wallpapers/sverige43.jpg';
+    bgImg.alt = '';
+    bgImg.style.cssText = 'position:fixed;z-index:-998;pointer-events:none;top:50%;left:50%;transform:translate(-50%,-50%);min-width:100%;min-height:100%;width:auto;height:auto;object-fit:cover;';
+    document.body.appendChild(bgImg);
   }
   
   // iOS Safari detection (includes iPadOS if in mobile mode)
@@ -32,7 +39,7 @@
       window.addEventListener(eventName, function() {
         // Force repaint on various events
         var fix = document.getElementById('safari-bg-fix');
-        var fixImage = document.getElementById('safari-bg-fix-image');
+        var img = document.getElementById('safari-bg-img');
         
         if (fix) {
           fix.style.opacity = '0.99';
@@ -41,8 +48,10 @@
           }, 10);
         }
         
-        if (fixImage) {
-          fixImage.style.transform = 'translateZ(0)';
+        if (img) {
+          // Make sure the image still covers the whole screen
+          img.style.minWidth = '100%';
+          img.style.minHeight = '100%';
         }
       }, {passive: true});
     });

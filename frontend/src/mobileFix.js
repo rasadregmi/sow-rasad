@@ -29,36 +29,28 @@
       pointer-events: none;
       height: 5000px; /* Very tall to ensure coverage */
       width: calc(100% + 200px);
-      transform: translateZ(0); /* Hardware acceleration */
-      will-change: transform; /* Performance hint */
     `;
     
-    // Create a second overlay with the background image
-    let imageBg = document.getElementById('termsBgImageOverlay');
+    // Ensure the body and html have the correct background color
+    document.body.style.backgroundColor = '#0f7ee9';
+    document.documentElement.style.backgroundColor = '#0f7ee9';
     
-    if (!imageBg) {
-      imageBg = document.createElement('div');
-      imageBg.id = 'termsBgImageOverlay';
-      document.body.appendChild(imageBg);
+    // Handle the background image if it exists on the page
+    const bgImageElement = document.querySelector('.terms-bg-img');
+    if (bgImageElement) {
+      // Ensure the image fills the screen properly
+      bgImageElement.style.position = 'fixed';
+      bgImageElement.style.top = '50%';
+      bgImageElement.style.left = '50%';
+      bgImageElement.style.minWidth = '100%';
+      bgImageElement.style.minHeight = '100%';
+      bgImageElement.style.width = 'auto';
+      bgImageElement.style.height = 'auto';
+      bgImageElement.style.transform = 'translate(-50%, -50%)';
+      bgImageElement.style.objectFit = 'cover';
+      bgImageElement.style.zIndex = '-3';
+      bgImageElement.style.pointerEvents = 'none';
     }
-    
-    imageBg.style.cssText = `
-      position: fixed;
-      left: -10%;
-      right: -10%;
-      top: -10%;
-      bottom: -10%;
-      width: 120%;
-      height: 120%;
-      z-index: -99;
-      pointer-events: none;
-      background-image: url('https://storage.123fakturera.se/public/wallpapers/sverige43.jpg');
-      background-size: cover;
-      background-position: center;
-      background-attachment: fixed;
-      transform: translateZ(0);
-      will-change: transform;
-    `;
     
     // Force body and html to be at least as tall as the viewport
     document.body.style.minHeight = `${vh}px`;
@@ -98,19 +90,13 @@
         
         // Force repaint of background elements
         const overlay = document.getElementById('termsBodyOverlay');
-        const imageBg = document.getElementById('termsBgImageOverlay');
-        
         if (overlay) {
           overlay.style.opacity = '0.99';
           setTimeout(() => { overlay.style.opacity = '1'; }, 10);
         }
         
-        if (imageBg) {
-          imageBg.style.transform = 'translateZ(0)';
-        }
+        lastScrollTop = st <= 0 ? 0 : st;
       }, 100);
-      
-      lastScrollTop = st <= 0 ? 0 : st;
     }
   }, {passive: true});
   

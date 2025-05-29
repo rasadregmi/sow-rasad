@@ -59,17 +59,19 @@
       window.addEventListener('DOMContentLoaded', function() {
         // Create a full-screen blue background that's impossible to scroll past
         var bgOverlay = document.createElement('div');
-        bgOverlay.style.cssText = 'position:fixed;top:-500px;left:-500px;right:-500px;bottom:-7000px;background:#0f7ee9;z-index:-100;pointer-events:none;height:10000px;width:calc(100% + 1000px);transform:translateZ(0);will-change:transform;';
+        bgOverlay.style.cssText = 'position:fixed;top:-500px;left:-500px;right:-500px;bottom:-7000px;background:#0f7ee9;z-index:-100;pointer-events:none;height:10000px;width:calc(100% + 1000px);';
         document.body.appendChild(bgOverlay);
       
         // Force background color on html and body to match
         document.documentElement.style.backgroundColor = '#0f7ee9';
         document.body.style.backgroundColor = '#0f7ee9';
         
-        // Add a fixed background image element that can't be affected by scrolling
-        var fixedBg = document.createElement('div');
-        fixedBg.style.cssText = 'position:fixed;z-index:-90;top:-10%;left:-10%;right:-10%;bottom:-10%;width:120%;height:120%;background-image:url("https://storage.123fakturera.se/public/wallpapers/sverige43.jpg");background-size:cover;background-position:center;background-attachment:fixed;transform:translateZ(0);will-change:transform;';
-        document.body.appendChild(fixedBg);
+        // Use an actual img element instead of background-image
+        var fixedImg = document.createElement('img');
+        fixedImg.src = 'https://storage.123fakturera.se/public/wallpapers/sverige43.jpg';
+        fixedImg.alt = '';
+        fixedImg.style.cssText = 'position:fixed;z-index:-90;top:50%;left:50%;transform:translate(-50%, -50%);min-width:100%;min-height:100%;width:auto;height:auto;object-fit:cover;pointer-events:none;';
+        document.body.appendChild(fixedImg);
       });
     </script>
     <!-- Include Safari-specific fixes -->

@@ -44,39 +44,44 @@
         width: calc(100% + 1000px);
         background-color: #0f7ee9;
         pointer-events: none;
-        transform: translateZ(0);
-        will-change: transform;
       `;
       
       // Create or update the iOS-specific background image element
       let iosBgImage = document.getElementById('ios-bg-image');
       
       if (!iosBgImage) {
-        iosBgImage = document.createElement('div');
-        iosBgImage.id = 'ios-bg-image';
-        document.body.appendChild(iosBgImage);
+        // If we're on iOS, we'll create an actual image tag instead of using background-image
+        const imageExists = document.querySelector('.terms-bg-img');
+        
+        if (!imageExists) {
+          iosBgImage = document.createElement('img');
+          iosBgImage.id = 'ios-bg-image';
+          iosBgImage.src = 'https://storage.123fakturera.se/public/wallpapers/sverige43.jpg';
+          iosBgImage.alt = '';
+          document.body.appendChild(iosBgImage);
+        }
       }
       
-      // Style the background image element
-      iosBgImage.style.cssText = `
-        position: fixed;
-        z-index: -998;
-        top: -20%;
-        left: -20%;
-        right: -20%;
-        bottom: -20%;
-        width: 140%;
-        height: 140%;
-        background-image: url('https://storage.123fakturera.se/public/wallpapers/sverige43.jpg');
-        background-position: center;
-        background-size: cover;
-        background-attachment: fixed;
-        pointer-events: none;
-        transform: translateZ(0);
-        will-change: transform;
-        -webkit-backface-visibility: hidden;
-        backface-visibility: hidden;
-      `;
+      const targetImage = document.getElementById('ios-bg-image') || document.querySelector('.terms-bg-img');
+      
+      if (targetImage) {
+        // Style the image element to be fixed and centered
+        targetImage.style.cssText = `
+          position: fixed;
+          z-index: -99;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          min-width: 100%;
+          min-height: 100%;
+          width: auto;
+          height: auto;
+          object-fit: cover;
+          pointer-events: none;
+          -webkit-user-select: none;
+          user-select: none;
+        `;
+      }
       
       // Force a repaint to ensure the elements are rendered correctly
       setTimeout(() => {
@@ -113,7 +118,7 @@
           
           // Force a repaint by toggling a property
           const bgFix = document.getElementById('ios-bg-fix');
-          const bgImage = document.getElementById('ios-bg-image');
+          const bgImage = document.getElementById('ios-bg-image') || document.querySelector('.terms-bg-img');
           
           if (bgFix) {
             bgFix.style.opacity = '0.99';
