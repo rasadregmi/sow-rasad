@@ -634,3 +634,16 @@ body::after {
   color: white;
   cursor: pointer;
 }
+
+@media (max-width: 767px) {
+  .terms-bg-img-container {
+    width: 100vw !important;
+    height: 100vh !important;
+  }
+  .terms-bg-img {
+    width: 100vw !important;
+    height: 100vh !important;
+    object-fit: cover !important;
+    object-position: center !important;
+  }
+}
