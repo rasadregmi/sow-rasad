@@ -12,6 +12,18 @@ html, body {
   background-color: #0f7ee9;
 }
 
+html::before {
+  content: '';
+  display: block;
+  position: fixed;
+  left: -20px;
+  right: -20px; 
+  top: -20px;
+  bottom: -1000px; 
+  background-color: #0f7ee9;
+  z-index: -20;
+}
+
 body::after {
   content: '';
   display: block;
@@ -38,11 +50,11 @@ body::after {
 
 .terms-bg {
   position: fixed;
-  top: -50px; 
-  left: 0;
-  right: 0;
-  bottom: -150vh; 
-  height: calc(100% + 200vh); 
+  top: -100px; 
+  left: -50px;
+  right: -50px;
+  bottom: -300vh; 
+  height: calc(100% + 350vh); 
   z-index: -1;
   background-image: url('https://storage.123fakturera.se/public/wallpapers/sverige43.jpg');
   background-position: center;
@@ -469,14 +481,12 @@ body::after {
   }
 }
 
-/* Mobile optimizations */
 @media only screen and (max-width: 767px) {
   .terms-container {
-    min-height: var(--app-height); /* Use dynamic height variable */
-    min-height: -webkit-fill-available; /* iOS Safari fallback */
+    min-height: var(--app-height); 
+    min-height: -webkit-fill-available; 
   }
   
-  /* Disable pull-to-refresh and overscroll behaviors */
   html, body {
     overscroll-behavior: none;
     -webkit-overflow-scrolling: touch;
@@ -486,7 +496,6 @@ body::after {
     height: 100%;
   }
 
-  /* Create a scrollable container while preventing body scrolling */
   .terms-container {
     position: absolute;
     top: 0;
@@ -496,33 +505,33 @@ body::after {
     overflow-y: auto;
   }
   
-  /* Make sure content doesn't get cut off */
   .terms-content {
-    padding-bottom: 50px; /* Extra padding to ensure no content is cut off */
+    padding-bottom: 120px; 
   }
   
-  /* Ensure the background covers all potential white space */
   body::before {
     content: '';
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    bottom: 0;
-    background-color: #0f7ee9; /* Fallback color that matches the image */
+    bottom: -1000px;
+    background-color: #0f7ee9;
     z-index: -2;
   }
   
-  /* Additional fix for the white space at the bottom */
+  html, body, .terms-container {
+    background-color: #0f7ee9; 
+  }
+  
   .terms-content::after {
     content: '';
     display: block;
     position: relative;
-    height: 200px; /* Extra space at the bottom */
+    height: 200px; 
     background-color: transparent;
   }
   
-  /* Extend the body background when scrolling */
   .terms-container::after {
     content: '';
     display: block;
@@ -531,15 +540,14 @@ body::after {
     left: 0;
     right: 0;
     height: 30vh;
-    background-color: #0f7ee9; /* Match the background color */
+    background-color: #0f7ee9; 
     z-index: -1;
   }
   
-  /* Handle bottom position with absolute positioning */
   .terms-close-button:last-child {
     position: relative;
     z-index: 2;
-    margin-bottom: 100px; /* Extra margin to prevent white space */
+    margin-bottom: 100px; 
   }
 }
 

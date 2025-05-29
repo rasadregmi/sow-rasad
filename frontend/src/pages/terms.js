@@ -291,6 +291,16 @@ const Terms = () => {
             >
                 {isSwedish ? "Stäng och gå tillbaka" : "Close and Go Back"}
             </button>
+            
+            <div style={{
+                position: 'fixed',
+                bottom: '-100vh',
+                left: 0,
+                right: 0,
+                height: '200vh',
+                backgroundColor: '#0f7ee9',
+                zIndex: -5
+            }}></div>
         </div>
     );
 };
