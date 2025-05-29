@@ -41,8 +41,8 @@ body::after {
   top: -50px; 
   left: 0;
   right: 0;
-  bottom: -100px; 
-  height: calc(100% + 150px); 
+  bottom: -150vh; 
+  height: calc(100% + 200vh); 
   z-index: -1;
   background-image: url('https://storage.123fakturera.se/public/wallpapers/sverige43.jpg');
   background-position: center;
@@ -511,6 +511,35 @@ body::after {
     bottom: 0;
     background-color: #0f7ee9; /* Fallback color that matches the image */
     z-index: -2;
+  }
+  
+  /* Additional fix for the white space at the bottom */
+  .terms-content::after {
+    content: '';
+    display: block;
+    position: relative;
+    height: 200px; /* Extra space at the bottom */
+    background-color: transparent;
+  }
+  
+  /* Extend the body background when scrolling */
+  .terms-container::after {
+    content: '';
+    display: block;
+    position: fixed;
+    bottom: -20vh;
+    left: 0;
+    right: 0;
+    height: 30vh;
+    background-color: #0f7ee9; /* Match the background color */
+    z-index: -1;
+  }
+  
+  /* Handle bottom position with absolute positioning */
+  .terms-close-button:last-child {
+    position: relative;
+    z-index: 2;
+    margin-bottom: 100px; /* Extra margin to prevent white space */
   }
 }
 
