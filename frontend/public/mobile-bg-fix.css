@@ -1,0 +1,80 @@
+/* 
+ * Mobile background fix for terms page
+ * This file targets the specific issue of white space showing when URL bar hides
+ */
+
+/* Base background color for all elements */
+html, body, #root, .terms-container, .terms-bg {
+  background-color: #0f7ee9 !important;
+}
+
+/* Ensure no white space is visible */
+body::before {
+  content: '';
+  display: block;
+  position: fixed;
+  left: -500px;
+  right: -500px;
+  top: -500px;
+  bottom: -5000px;
+  background-color: #0f7ee9;
+  z-index: -1000;
+  height: 10000px;
+  pointer-events: none;
+}
+
+/* Provide a fixed background for mobile */
+.mobile-terms-view .terms-bg-img-container {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  overflow: hidden !important;
+  z-index: -50 !important;
+  background-color: #0f7ee9 !important;
+}
+
+/* Image styling for mobile */
+.mobile-terms-view .terms-bg-img {
+  position: fixed !important;
+  top: 50% !important;
+  left: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  min-width: 120% !important; /* Extra width to cover any gaps */
+  min-height: 120% !important; /* Extra height to cover any gaps */
+  width: auto !important;
+  height: auto !important;
+  object-fit: cover !important;
+  object-position: center center !important;
+  z-index: -40 !important;
+  pointer-events: none !important;
+}
+
+/* After first scroll specific fixes */
+.scrolled-once .terms-bg-img {
+  min-width: 150% !important; /* Even more coverage after first scroll */
+  min-height: 150% !important;
+}
+
+/* iOS Safari specific fixes */
+@supports (-webkit-touch-callout: none) {
+  /* iOS specific styles to force image to stay fixed */
+  .terms-bg-img {
+    position: fixed !important;
+    top: 50% !important;
+    left: 50% !important;
+    width: 150% !important; /* Ensure image is larger than viewport */
+    height: 150% !important;
+    transform: translate(-50%, -50%) !important;
+    object-fit: cover !important;
+    z-index: -40 !important;
+  }
+  
+  /* Ensure body covers entire viewport */
+  body {
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+    position: relative;
+  }
+}

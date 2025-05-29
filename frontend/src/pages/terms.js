@@ -12,6 +12,7 @@ const Terms = () => {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [imageLoaded, setImageLoaded] = useState(false);
     const [showLanguageDropdown, setShowLanguageDropdown] = useState(false);
+    const [hasScrolled, setHasScrolled] = useState(false);
     const [navItems, setNavItems] = useState([
         { name: "Home", url: "/" },
         { name: "Order", url: "/order" },
@@ -37,9 +38,69 @@ const Terms = () => {
         
         setAppHeight();
         
+        // Track scroll count to apply different fixes based on scroll position
+        let scrollCount = 0;
+        
         window.addEventListener('resize', setAppHeight);
         window.addEventListener('orientationchange', setAppHeight);
-        window.addEventListener('scroll', () => setTimeout(setAppHeight, 50));
+        
+        // Special handling for scroll events
+        window.addEventListener('scroll', () => {
+            // Mark as scrolled after first scroll
+            if (!hasScrolled) {
+                setHasScrolled(true);
+                document.body.classList.add('scrolled-once');
+            }
+            
+            // Apply immediate fixes
+            setAppHeight();
+            
+            // Special handling for after first scroll
+            if (hasScrolled) {
+                // Create additional background elements after first scroll
+                const secondScrollBg = document.getElementById('second-scroll-bg') || 
+                                      document.createElement('div');
+                secondScrollBg.id = 'second-scroll-bg';
+                secondScrollBg.style.cssText = `
+                    position: fixed;
+                    top: 0;
+                    left: 0;
+                    right: 0;
+                    bottom: 0;
+                    width: 100%;
+                    height: 100%;
+                    background-color: #0f7ee9;
+                    z-index: -200;
+                    pointer-events: none;
+                `;
+                document.body.appendChild(secondScrollBg);
+                
+                // Create a second image element
+                const secondScrollImg = document.getElementById('second-scroll-img') || 
+                                       document.createElement('img');
+                secondScrollImg.id = 'second-scroll-img';
+                secondScrollImg.src = 'https://storage.123fakturera.se/public/wallpapers/sverige43.jpg';
+                secondScrollImg.alt = '';
+                secondScrollImg.style.cssText = `
+                    position: fixed;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                    min-width: 150%;
+                    min-height: 150%;
+                    width: auto;
+                    height: auto;
+                    object-fit: cover;
+                    object-position: center center;
+                    z-index: -190;
+                    pointer-events: none;
+                `;
+                document.body.appendChild(secondScrollImg);
+            }
+            
+            // Apply delayed fixes after scrolling
+            setTimeout(setAppHeight, 50);
+        }, { passive: true });
         
         const handleResize = () => {
             setIsMobile(window.innerWidth < 768);
@@ -114,7 +175,7 @@ const Terms = () => {
     };
     
     return (
-        <div className="terms-container">
+        <div className={`terms-container ${hasScrolled ? 'scrolled-once' : ''}`}>
             {/* Background color layer */}
             <div className="terms-bg"></div>
             
