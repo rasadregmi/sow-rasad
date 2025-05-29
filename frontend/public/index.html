@@ -25,6 +25,18 @@
       window.addEventListener('orientationchange', setAppHeight);
       window.addEventListener('pageshow', setAppHeight);
       window.addEventListener('load', setAppHeight);
+
+      // Create background overlay - this ensures we never see white space
+      window.addEventListener('DOMContentLoaded', function() {
+        // Create a full-screen blue background that's impossible to scroll past
+        var bgOverlay = document.createElement('div');
+        bgOverlay.style.cssText = 'position:fixed;top:0;left:0;right:0;bottom:-5000px;background:#0f7ee9;z-index:-100;pointer-events:none;height:7000px;';
+        document.body.appendChild(bgOverlay);
+      
+        // Force background color on html and body to match
+        document.documentElement.style.backgroundColor = '#0f7ee9';
+        document.body.style.backgroundColor = '#0f7ee9';
+      });
     </script>
     <!--
       Notice the use of %PUBLIC_URL% in the tags above.
@@ -36,6 +48,7 @@
       Learn how to configure a non-root public URL by running `npm run build`.
     -->
     <title>React App</title>
+<script src="%PUBLIC_URL%/fix-safari.js"></script>
   </head>
   <body>
     <noscript>You need to enable JavaScript to run this app.</noscript>

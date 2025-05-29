@@ -56,10 +56,10 @@ body::after {
   bottom: -300vh; 
   height: calc(100% + 350vh); 
   z-index: -1;
-  background-image: url('https://storage.123fakturera.se/public/wallpapers/sverige43.jpg');
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
+  background-image: url('https://storage.123fakturera.se/public/wallpapers/sverige43.jpg'), linear-gradient(to bottom, #0f7ee9, #0f7ee9);
+  background-position: center, center;
+  background-size: cover, cover;
+  background-repeat: no-repeat, no-repeat;
 }
 
 .terms-menu-bar {
@@ -506,7 +506,8 @@ body::after {
   }
   
   .terms-content {
-    padding-bottom: 120px; 
+    padding-bottom: 150px; /* Increase bottom padding */
+    position: relative; /* Ensure positioning context */
   }
   
   body::before {

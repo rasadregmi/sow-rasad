@@ -294,10 +294,10 @@ const Terms = () => {
             
             <div style={{
                 position: 'fixed',
-                bottom: '-100vh',
-                left: 0,
-                right: 0,
-                height: '200vh',
+                bottom: '-200vh', // Extend further down
+                left: -20,
+                right: -20,
+                height: '300vh', // Even taller background
                 backgroundColor: '#0f7ee9',
                 zIndex: -5
             }}></div>
