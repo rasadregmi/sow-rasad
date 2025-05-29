@@ -38,26 +38,20 @@ const Terms = () => {
         
         setAppHeight();
         
-        // Track scroll count to apply different fixes based on scroll position
         let scrollCount = 0;
         
         window.addEventListener('resize', setAppHeight);
         window.addEventListener('orientationchange', setAppHeight);
         
-        // Special handling for scroll events
         window.addEventListener('scroll', () => {
-            // Mark as scrolled after first scroll
             if (!hasScrolled) {
                 setHasScrolled(true);
                 document.body.classList.add('scrolled-once');
             }
             
-            // Apply immediate fixes
             setAppHeight();
             
-            // Special handling for after first scroll
             if (hasScrolled) {
-                // Create additional background elements after first scroll
                 const secondScrollBg = document.getElementById('second-scroll-bg') || 
                                       document.createElement('div');
                 secondScrollBg.id = 'second-scroll-bg';
@@ -75,7 +69,6 @@ const Terms = () => {
                 `;
                 document.body.appendChild(secondScrollBg);
                 
-                // Create a second image element
                 const secondScrollImg = document.getElementById('second-scroll-img') || 
                                        document.createElement('img');
                 secondScrollImg.id = 'second-scroll-img';
@@ -98,7 +91,6 @@ const Terms = () => {
                 document.body.appendChild(secondScrollImg);
             }
             
-            // Apply delayed fixes after scrolling
             setTimeout(setAppHeight, 50);
         }, { passive: true });
         
@@ -176,10 +168,8 @@ const Terms = () => {
     
     return (
         <div className={`terms-container ${hasScrolled ? 'scrolled-once' : ''}`}>
-            {/* Background color layer */}
             <div className="terms-bg"></div>
             
-            {/* Background image container */}
             <div className="terms-bg-img-container">
                 <img 
                     src="https://storage.123fakturera.se/public/wallpapers/sverige43.jpg" 
@@ -189,7 +179,6 @@ const Terms = () => {
                 />
             </div>
             
-            {/* Extra background element specifically for mobile */}
             <div style={{
                 position: 'fixed',
                 top: 0,
@@ -379,15 +368,14 @@ const Terms = () => {
             
             <div style={{
                 position: 'fixed',
-                bottom: '-300vh', // Extend even further down
+                bottom: '-300vh', 
                 left: -50,
                 right: -50,
-                height: '400vh', // Taller background
+                height: '400vh', 
                 backgroundColor: '#0f7ee9',
                 zIndex: -5
             }}></div>
             
-            {/* Additional background coverage element */}
             <div style={{
                 position: 'fixed',
                 top: 0,

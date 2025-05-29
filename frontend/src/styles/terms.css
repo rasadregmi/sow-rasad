@@ -18,10 +18,9 @@ html, body {
 
 html, body, #root {
   overflow-x: hidden;
-  overscroll-behavior: none; /* prevent bounce exposing white gap */
+  overscroll-behavior: none; 
 }
 
-/* Multi-layered approach to prevent white space */
 html::before {
   content: '';
   display: block;
@@ -68,17 +67,15 @@ body::after {
   padding-bottom: 0;
 }
 
-/* Mobile-specific adjustments */
 @media (max-width: 767px) {
   .terms-container {
-    min-height: calc(var(--vh, 1vh) * 100); /* Use the dynamic viewport height on mobile */
+    min-height: calc(var(--vh, 1vh) * 100); 
   }
   
-  /* Add extra space at the bottom on mobile to prevent white space */
   .terms-container::after {
     content: '';
     display: block;
-    height: 50px; /* Extra padding at the bottom */
+    height: 50px;
     width: 100%;
     background-color: #0f7ee9;
   }
@@ -93,14 +90,12 @@ body::after {
   width: 100% !important;
   height: 100% !important;
   z-index: -5 !important;
-  /* Don't use background-image for mobile - we'll use an img tag instead */
   background: #0f7ee9 !important;
-  transform: none !important; /* Disable transform to prevent issues */
+  transform: none !important; 
   overflow: hidden !important;
   pointer-events: none !important;
 }
 
-/* Create a container for the background image */
 .terms-bg-img-container {
   position: fixed !important;
   top: 0 !important;
@@ -115,7 +110,6 @@ body::after {
   pointer-events: none !important;
 }
 
-/* Actual image element that will be created via JavaScript */
 .terms-bg-img {
   position: fixed !important;
   top: 50% !important;
