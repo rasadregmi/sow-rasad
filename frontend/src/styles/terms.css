@@ -16,6 +16,11 @@ html, body {
   background-color: #0f7ee9 !important;
 }
 
+html, body, #root {
+  overflow-x: hidden;
+  overscroll-behavior: none; /* prevent bounce exposing white gap */
+}
+
 /* Multi-layered approach to prevent white space */
 html::before {
   content: '';
@@ -59,6 +64,8 @@ body::after {
   overflow-x: hidden;
   z-index: 1;
   background-color: transparent;
+  margin: 0;
+  padding-bottom: 0;
 }
 
 /* Mobile-specific adjustments */
@@ -209,6 +216,11 @@ body::after {
   margin: 1rem auto 2rem;
   border-radius: 5px;
   position: relative;
+}
+
+.terms-content, .terms-content p {
+  margin-bottom: 0;
+  padding-bottom: 0;
 }
 
 .terms-heading {
