@@ -115,7 +115,21 @@ const Terms = () => {
     
     return (
         <div className="terms-container">
+            {/* Multiple background layers for maximum coverage */}
             <div className="terms-bg"></div>
+            
+            {/* Extra background element specifically for mobile */}
+            <div style={{
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                backgroundColor: '#0f7ee9',
+                zIndex: -50,
+                pointerEvents: 'none'
+            }}></div>
+            
             <div className="terms-menu-bar">
                 <div className="logo-container">
                     <img src="https://storage.123fakturera.se/public/icons/diamond.png" alt="Logo" className="logo" />
@@ -294,12 +308,24 @@ const Terms = () => {
             
             <div style={{
                 position: 'fixed',
-                bottom: '-200vh', // Extend further down
-                left: -20,
-                right: -20,
-                height: '300vh', // Even taller background
+                bottom: '-300vh', // Extend even further down
+                left: -50,
+                right: -50,
+                height: '400vh', // Taller background
                 backgroundColor: '#0f7ee9',
                 zIndex: -5
+            }}></div>
+            
+            {/* Additional background coverage element */}
+            <div style={{
+                position: 'fixed',
+                top: 0,
+                left: 0,
+                right: 0,
+                bottom: 0,
+                backgroundColor: '#0f7ee9',
+                zIndex: -15,
+                pointerEvents: 'none'
             }}></div>
         </div>
     );

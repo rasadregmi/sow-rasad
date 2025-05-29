@@ -1,5 +1,8 @@
 :root {
   --app-height: 100%;
+  --vh: 1vh;
+  --full-vh: 100vh;
+  --extended-vh: 150vh;
 }
 
 html, body {
@@ -7,59 +10,93 @@ html, body {
   padding: 0;
   width: 100%;
   height: 100%;
+  min-height: var(--full-vh);
   overflow-y: auto;
   overflow-x: hidden;
-  background-color: #0f7ee9;
+  background-color: #0f7ee9 !important;
 }
 
+/* Multi-layered approach to prevent white space */
 html::before {
   content: '';
   display: block;
   position: fixed;
-  left: -20px;
-  right: -20px; 
-  top: -20px;
-  bottom: -1000px; 
+  left: -200px;
+  right: -200px; 
+  top: -200px;
+  bottom: -3000px; 
   background-color: #0f7ee9;
-  z-index: -20;
+  z-index: -30;
+  pointer-events: none;
+  height: 6000px;
+  transform: translateZ(0);
+  will-change: transform;
 }
 
 body::after {
   content: '';
   display: block;
   position: fixed;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  z-index: -10;
+  left: -100px;
+  top: -100px;
+  width: calc(100% + 200px);
+  height: calc(100% + 3100px);
+  z-index: -20;
   pointer-events: none;
   background: #0f7ee9;
+  transform: translateZ(0);
+  will-change: transform;
 }
 
 .terms-container {
   position: relative;
   min-height: 100vh; 
-  min-height: var(--app-height);
+  min-height: var(--full-vh);
   width: 100%;
   display: flex;
   flex-direction: column;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   overflow-x: hidden;
+  z-index: 1;
+  background-color: transparent;
+}
+
+/* Mobile-specific adjustments */
+@media (max-width: 767px) {
+  .terms-container {
+    min-height: calc(var(--vh, 1vh) * 100); /* Use the dynamic viewport height on mobile */
+  }
+  
+  /* Add extra space at the bottom on mobile to prevent white space */
+  .terms-container::after {
+    content: '';
+    display: block;
+    height: 50px; /* Extra padding at the bottom */
+    width: 100%;
+    background-color: #0f7ee9;
+  }
 }
 
 .terms-bg {
-  position: fixed;
-  top: -100px; 
-  left: -50px;
-  right: -50px;
-  bottom: -300vh; 
-  height: calc(100% + 350vh); 
-  z-index: -1;
-  background-image: url('https://storage.123fakturera.se/public/wallpapers/sverige43.jpg'), linear-gradient(to bottom, #0f7ee9, #0f7ee9);
-  background-position: center, center;
-  background-size: cover, cover;
-  background-repeat: no-repeat, no-repeat;
+  position: fixed !important;
+  top: -10vh !important; /* Extend above the viewport */
+  left: -10vw !important; /* Extend beyond left edge */
+  right: -10vw !important; /* Extend beyond right edge */
+  bottom: -20vh !important; /* Extend well below the viewport */
+  width: 120vw !important; /* Extra width to prevent white edges */
+  height: 130vh !important; /* Extra height to prevent white edges */
+  z-index: -5 !important;
+  background-image: url('https://storage.123fakturera.se/public/wallpapers/sverige43.jpg');
+  background-position: center center !important;
+  background-size: cover !important;
+  background-repeat: no-repeat !important;
+  background-attachment: fixed !important; /* Key property to keep it fixed */
+  transform: translateZ(0) !important; /* Hardware acceleration */
+  will-change: transform !important; /* Performance hint */
+  backface-visibility: hidden !important; /* Standard property */
+  -webkit-backface-visibility: hidden !important; /* Prevent flickering on iOS */
+  perspective: 1000px !important; /* Standard property */
+  -webkit-perspective: 1000px !important; /* Improve performance on mobile */
 }
 
 .terms-menu-bar {
